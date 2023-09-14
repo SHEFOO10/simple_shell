@@ -49,14 +49,14 @@ int main(int argc, char **argv, char **env)
 				free(command);
 				free_arr(&args);
 				break;
-			} else if (status == 4)
-			{
-				status = 0;
-				free(command);
-				free_arr(&args);
-				break;
 			}
+		} else if (strncmp(args[0], "exit", 4) == 0)
+		{
+			free(command);
+			free_arr(&args);
+			break;
 		}
+
 		free(command);
 		free_arr(&args);
 	}

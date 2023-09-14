@@ -21,7 +21,7 @@ int execute_program(char **args, char **env)
 	{
 		if (args[1] != NULL)
 			return __exit(args[1], args[0]);
-		return (4);
+		return (0);
 	}
 	if (strncmp(args[0], "env", 3) == 0)
 	{
