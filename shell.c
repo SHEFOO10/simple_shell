@@ -48,7 +48,13 @@ int main(int argc, char **argv, char **env)
 			{
 				free(command);
 				free_arr(&args);
-					break;
+				break;
+			} else if (status == 4)
+			{
+				status = 0;
+				free(command);
+				free_arr(&args);
+				break;
 			}
 		}
 		free(command);
