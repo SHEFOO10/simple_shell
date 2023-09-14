@@ -15,8 +15,8 @@ int main(int argc, char **argv, char **env)
 	char *command = NULL;
 	char **args = NULL;
 	size_t len = 0;
-	int wcount;
-	int status;
+	int wcount = 0;
+	int status = 0;
 	(void) argc;
 	(void) argv;
 

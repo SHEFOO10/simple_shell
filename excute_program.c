@@ -1,6 +1,5 @@
 #include "shell.h"
 
-extern char **environ;
 /**
  * excute_program - function to excute the program.
  *
@@ -25,8 +24,8 @@ int execute_program(char **args, char **env)
 	}
 	if (strncmp(args[0], "env", 3) == 0)
 	{
-		for (i = 0; environ[i] != NULL; i++)
-			printf("%s\n", environ[i]);
+		for (i = 0; env[i] != NULL; i++)
+			printf("%s\n", env[i]);
 		return (0);
 	}
 	
@@ -60,7 +59,7 @@ int execute_program(char **args, char **env)
 	
 	for (index = 0; args[index] != NULL; index++)
 	{
-		if (args[index] == "exit")
+		if (args[index] == "exit" && args[index + 1] != NULL)
 		{
 			return __exit(args[index + 1], args[index]);
 		}
