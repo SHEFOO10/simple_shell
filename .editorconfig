@@ -1,0 +1,6 @@
+[*.c]
+indent_style= tab
+trim_trailing_whitespace = true
+indent_size= 4
+tab_width = 4
+
