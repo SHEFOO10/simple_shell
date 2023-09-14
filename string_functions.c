@@ -15,15 +15,14 @@ char *trim_spaces(char *line)
 	char *copied;
 	char *temp = line;
 
-	while (*temp != '\0')
+	while (temp[i] != '\0')
 	{
-		if (*temp != ' ')
+		if (temp[i] != ' ')
 		{
 			break;
 		}
 		else
 			i++;
-		*temp++;
 	}
 	copied = malloc(sizeof(char) * (len + 1));
 	strcpy(copied, line + i);
@@ -31,7 +30,14 @@ char *trim_spaces(char *line)
 	return (copied);
 }
 
-// char **
+/**
+ * command_args - separate command and args.
+ *
+ * @cmd_arr: array of commands.
+ * @full_line: full line of command.
+ *
+ * Return: Arr of arguments with the command on first position.
+*/
 char **command_args(char **cmd_arr, char *full_line)
 {
 	char *token;
@@ -48,7 +54,7 @@ char **command_args(char **cmd_arr, char *full_line)
 	}
 	cmd_arr = malloc(sizeof(char *) * (arr_len + 1));
 	token = strtok(full_line, " ");
-	for (i = 0; i < arr_len, token != NULL; i++)
+	for (i = 0; i < arr_len && token != NULL; i++)
 	{
 		cmd_arr[i] = malloc(strlen(token) + 1);
 		strcpy(cmd_arr[i], token);
@@ -57,6 +63,27 @@ char **command_args(char **cmd_arr, char *full_line)
 	cmd_arr[arr_len] = NULL;
 	free(token);
 	free(temp_line);
-	return cmd_arr;
+	return (cmd_arr);
 }
 
+/**
+ * concat_command - concatenate command with directory.
+ *
+ * @command: the name of the program.
+ * @directory: the name of the folder.
+ *
+ * Return: concatenated command.
+*/
+
+char *concat_command(char *command, char *directory)
+{
+	char *full_path;
+
+	full_path = malloc(sizeof(char) * (strlen(directory) +
+		 strlen(command) + 2));
+		strcpy(full_path, directory);
+		strcat(full_path, "/");
+		strcat(full_path, command);
+
+	return (full_path);
+}

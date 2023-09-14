@@ -3,17 +3,22 @@
 /**
  * main - Entry Point
  *
+ * @argc: argument count.
+ * @argv: program arguments.
+ * @env: enviroment variables.
+ *
  * Return: (0) on Success.
 */
-int main(void)
+int main(int argc, char **argv, char **env)
 {
 	char *line = NULL;
 	char *command = NULL;
-	char **argv = NULL;
+	char **args = NULL;
 	size_t len = 0;
 	int wcount;
 	int status;
-	int child_status;
+	(void) argc;
+	(void) argv;
 
 	while (1)
 	{
@@ -21,30 +26,29 @@ int main(void)
 			printf("$ ");
 		wcount = getline(&line, &len, stdin);
 		if (wcount == -1)
+		{
+			if (isatty(0) == 1)
+				printf("exit\n");
 			break;
+		}
 		line[strcspn(line, "\n")] = '\0';
 
 		command = trim_spaces(line);
 		if ((*command) == '\0')
 		{
 			free(command);
-			break;
+			continue;
 		}
-		argv = command_args(argv, command);
-		if (fork() == 0)
-		{
-			status = execve(argv[0], argv, environ);
-			if (status == -1)
-				perror("execve");
-		}
-		else
-			wait(&child_status);
+		args = command_args(args, command);
+
+		status = excute_program(args, env);
+
 		free(command);
-		free_args(&argv);
-		free(argv);
+		free_args(&args);
+		free(args);
 	}
 		free(line);
 
 
-	return (0);
+	return (status);
 }
