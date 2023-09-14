@@ -41,11 +41,18 @@ int main(int argc, char **argv, char **env)
 		}
 		args = command_args(args, command);
 
-		status = excute_program(args, env);
-
+		status = execute_program(args, env);
+		if (status != 0)
+		{
+			if (!isatty(0))
+			{
+				free(command);
+				free_arr(&args);
+					break;
+			}
+		}
 		free(command);
-		free_args(&args);
-		free(args);
+		free_arr(&args);
 	}
 		free(line);
 

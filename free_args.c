@@ -1,15 +1,17 @@
 #include "shell.h"
 
 /**
- * free_args - ...
+ * free_arr - ...
  *
  * @argv: args to be freed.
  *
 */
-void free_args(char ***argv)
+void free_arr(char ***argv)
 {
 	int i = 0;
+	char **arr = *argv;
 
 	for (i = 0; (*argv)[i] != NULL; i++)
 		free((*argv)[i]);
+	free(arr);
 }

@@ -1,5 +1,6 @@
 #include "shell.h"
 
+extern char **environ;
 /**
  * excute_program - function to excute the program.
  *
@@ -8,32 +9,42 @@
  *
  * Return: (1) on success, (0) on failure.
 */
-int excute_program(char **args, char **env)
+int execute_program(char **args, char **env)
 {
 	int status;
 	int child_status;
-	int program_exist = _path(args, env);
-	if (access(args[0], X_OK) != 0 && strncmp(args[0], "./", 2) == 0)
+	int program_exist;
+	int index;
+	int i;
+
+	if (strncmp(args[0], "exit", 4) == 0)
 	{
-		fprintf(stderr, "./hsh: %d: %s: not found\n", 1, args[0]);
-		return (127);
+		if (args[1] != NULL)
+			return __exit(args[1], args[0]);
+		return (0);
 	}
-	//check if ./program is not excutable and start with ./
-	
-	if (program_exist == 0 && access(args[0], X_OK) == 0)
+	if (strncmp(args[0], "env", 3) == 0)
 	{
+		for (i = 0; environ[i] != NULL; i++)
+			printf("%s\n", environ[i]);
+		return (0);
+	}
+	
+	program_exist = _path(args, env);
+	if (program_exist == 0 && access(args[0], X_OK) == 0)
 		if (strncmp(args[0], "/", 1) != 0 && strncmp(args[0], "./", 2) != 0 && strncmp(args[0], "../", 3))
 		{
 			fprintf(stderr, "./hsh: %d: %s: not found\n", 1, args[0]);
 			return (127);
 		}
-	}
-	// check if ./program is not starting with ./ and don't exist in path and not excutable 
+
 	if (access(args[0], X_OK) != 0)
 	{
 		fprintf(stderr, "./hsh: %d: %s: not found\n", 1, args[0]);
 		return (127);
 	}
+	
+	
 	if (fork() == 0)
 	{
 		status = execve(args[0], args, env);
@@ -41,6 +52,18 @@ int excute_program(char **args, char **env)
 			perror("execve");
 	}
 	else
+	{
 		wait(&child_status);
-	return (0);
+		if (WIFEXITED(child_status))
+            child_status = WEXITSTATUS(child_status);
+	}
+	
+	for (index = 0; args[index] != NULL; index++)
+	{
+		if (args[index] == "exit")
+		{
+			return __exit(args[index + 1], args[index]);
+		}
+	}
+	return (child_status);
 }

@@ -43,8 +43,8 @@ int _path(char **command_arr, char **env)
 	char *path;
 	char *path_copy;
 
-	// if (strncmp(command_arr[0], "./", 2) == 0)
-	// 	return (0);
+	if (strncmp(command_arr[0], "./", 2) == 0)
+		return (0);
 	path = getpath(env);
 	if (path == NULL)
 		return (0);
