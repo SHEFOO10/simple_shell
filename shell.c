@@ -35,17 +35,17 @@ int main(int argc, char **argv, char **env)
 		}
 		args = command_args(args, command);
 		status = execute_program(args, env);
-		if (status != 0)
+		if (strncmp(args[0], "exit", 4) == 0)
+		{
+			free_args(&args, command);
+			break;
+		} else if (status != 0)
 		{
 			if (!isatty(0))
 			{
 				free_args(&args, command);
 				break;
 			}
-		} else if (strncmp(args[0], "exit", 4) == 0)
-		{
-			free_args(&args, command);
-			break;
 		}
 		free_args(&args, command);
 	}
