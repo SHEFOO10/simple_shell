@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * _exit - handle exit
- * 
+ * __exit - handle exit
+ *
  * @status_code: code returned after exit.
  * @command: for the error.
  * Return: .......
@@ -11,6 +11,7 @@
 int __exit(char *status_code, char *command)
 {
 	int code = atoi(status_code);
+
 	if (code < 0)
 	{
 		fprintf(stderr, "./hsh: 1: %s: Illegal number: %d\n", command, code);

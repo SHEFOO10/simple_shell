@@ -22,8 +22,12 @@ char *concat_command(char *command, char *directory);
 
 /* free_args.c */
 void free_arr(char ***argv);
+void free_args(char ***argv, char *command);
 
 /* handle_exit.c */
 int __exit(char *status_code, char *command);
+
+/* handle_env.c */
+int handle_env(char **env);
 
 #endif
